@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLOCKPEDIA — Minecraft Java 26.3</title>
+
+<style>
+:root{
+ --bg:#101410;
+ --panel:#192119;
+ --panel2:#202b21;
+ --green:#70d879;
+ --green2:#3da94b;
+ --text:#edf4ed;
+ --muted:#a6b5a6;
+ --border:#344536;
+ --gold:#e8c66b;
+ --red:#e47b72;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:Arial,Helvetica,sans-serif
+}
+header{
+ background:#17251a;border-bottom:1px solid var(--border);
+ padding:18px 5%;position:sticky;top:0;z-index:10
+}
+.top{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:18px;flex-wrap:wrap
+}
+.logo{font-size:26px;font-weight:900;letter-spacing:1px;color:var(--green)}
+.logo span{color:white}
+.tagline{color:var(--muted);font-size:11px;margin-top:5px}
+.tools{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.search{
+ width:min(420px,75vw);padding:12px 15px;border-radius:9px;
+ border:1px solid var(--border);background:#0e160f;color:white;font-size:14px
+}
+.search:focus{outline:1px solid var(--green)}
+.lang{
+ padding:12px 16px;border-radius:9px;border:1px solid var(--green);
+ background:#263a29;color:var(--green);font-weight:bold;cursor:pointer
+}
+.layout{display:grid;grid-template-columns:250px 1fr;min-height:calc(100vh - 90px)}
+aside{
+ background:#141c15;border-right:1px solid var(--border);
+ padding:20px;position:sticky;top:85px;height:calc(100vh - 85px);
+ overflow:auto
+}
+aside h3{
+ font-size:11px;color:var(--muted);text-transform:uppercase;
+ letter-spacing:1.5px;margin:15px 0 10px
+}
+.navbtn{
+ width:100%;text-align:left;background:transparent;color:#cbd8cb;
+ border:0;padding:10px;border-radius:7px;cursor:pointer;
+ font-size:13px;margin:2px 0
+}
+.navbtn:hover,.navbtn.active{background:#263a29;color:var(--green)}
+main{padding:32px;max-width:1400px;width:100%;margin:auto}
+.hero{
+ background:linear-gradient(120deg,#203c25,#17251b);
+ border:1px solid #38563b;border-radius:16px;padding:30px;margin-bottom:25px
+}
+.hero h1{font-size:36px;margin:0 0 12px}
+.hero p{color:#c3d3c4;line-height:1.7;max-width:800px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.stat{
+ background:#142018;border:1px solid var(--border);
+ padding:12px 16px;border-radius:9px
+}
+.stat strong{display:block;color:var(--green);font-size:21px}
+.stat small{color:var(--muted)}
+.section-title{font-size:22px;margin:30px 0 15px}
+.grid{
+ display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+ gap:13px
+}
+.tile{
+ background:var(--panel);border:1px solid var(--border);
+ border-radius:11px;padding:17px;cursor:pointer;transition:.15s
+}
+.tile:hover{
+ transform:translateY(-2px);border-color:var(--green);background:var(--panel2)
+}
+.tile .emoji{font-size:27px}
+.tile h3{font-size:16px;margin:10px 0 7px}
+.tile p{font-size:13px;color:var(--muted);line-height:1.5;margin:0}
+.pill{
+ display:inline-block;color:var(--green);background:#213b26;
+ padding:5px 9px;border-radius:20px;font-size:11px;margin-bottom:8px
+}
+.article{
+ background:var(--panel);border:1px solid var(--border);
+ border-radius:13px;padding:25px
+}
+.article h1{font-size:30px;margin:8px 0}
+.article h2{font-size:19px;color:var(--green);margin-top:27px}
+.article p,.article li{line-height:1.75;color:#d1ddd1}
+.article ul{padding-left:22px}
+.article .intro{color:var(--muted);font-size:16px}
+.back{
+ background:#263a29;color:var(--green);border:1px solid var(--border);
+ padding:9px 13px;border-radius:7px;cursor:pointer;margin-bottom:18px
+}
+.note{
+ background:#263222;border-left:3px solid var(--gold);
+ padding:13px 16px;border-radius:5px;color:#e6dfc5;
+ line-height:1.6;margin:15px 0
+}
+.warning{
+ background:#382522;border-left:3px solid var(--red);
+ padding:13px 16px;border-radius:5px;color:#f0c9c4;
+ line-height:1.6;margin:15px 0
+}
+.code{
+ background:#0c110d;border:1px solid var(--border);padding:12px;
+ border-radius:7px;color:#9ce8a4;font-family:monospace;
+ overflow-x:auto;margin:10px 0
+}
+.empty{padding:35px;text-align:center;color:var(--muted)}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:30px}
+@media(max-width:760px){
+ .layout{grid-template-columns:1fr}
+ aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}
+ aside .navlist{display:grid;grid-template-columns:repeat(2,1fr);gap:3px}
+ main{padding:16px}
+ .hero h1{font-size:27px}
+ header{position:static}
+ .tools{width:100%}
+ .search{width:100%;flex:1}
+}
+
+/* =========================================================
+   THÈME BLOCKGOD — fond blanc, noir et jaune
+   ========================================================= */
+:root{
+  --bg:#ffffff;
+  --panel:#ffffff;
+  --panel2:#fff9dc;
+  --green:#f2c400;
+  --green2:#d9a900;
+  --text:#171717;
+  --muted:#666666;
+  --border:#dedede;
+  --gold:#e2b600;
+  --red:#c83e36;
+}
+html,body{
+  background:#ffffff !important;
+  color:#171717 !important;
+}
+header{
+  background:#111111 !important;
+  border-bottom:3px solid #f2c400 !important;
+}
+.logo{color:#f2c400 !important}
+.logo span{color:#ffffff !important}
+.tagline{color:#d2d2d2 !important}
+.search{
+  background:#ffffff !important;
+  color:#171717 !important;
+  border:2px solid #f2c400 !important;
+}
+.search::placeholder{color:#777777 !important}
+.search:focus{outline:2px solid #f2c400 !important}
+.lang{
+  background:#f2c400 !important;
+  color:#111111 !important;
+  border:2px solid #f2c400 !important;
+}
+.lang:hover{background:#ffda32 !important}
+.layout{background:#ffffff !important}
+aside{
+  background:#f7f7f7 !important;
+  border-right:1px solid #dedede !important;
+}
+aside h3{color:#777777 !important}
+.navbtn{color:#292929 !important}
+.navbtn:hover,.navbtn.active{
+  background:#fff0a8 !important;
+  color:#111111 !important;
+  font-weight:700 !important;
+}
+main{background:#ffffff !important}
+.hero{
+  background:#171717 !important;
+  color:#ffffff !important;
+  border:2px solid #f2c400 !important;
+}
+.hero h1{color:#f2c400 !important}
+.hero p{color:#eeeeee !important}
+.stat{
+  background:#292929 !important;
+  border:1px solid #f2c400 !important;
+}
+.stat strong{color:#f2c400 !important}
+.stat small{color:#eeeeee !important}
+.section-title{color:#171717 !important}
+.tile,.article{
+  background:#ffffff !important;
+  color:#171717 !important;
+  border:1px solid #dedede !important;
+  box-shadow:0 2px 9px rgba(0,0,0,.06) !important;
+}
+.tile:hover{
+  background:#fffbea !important;
+  border-color:#e2b600 !important;
+}
+.tile h3{color:#171717 !important}
+.tile p{color:#555555 !important}
+.tile p[style]{color:#b18b00 !important}
+.pill{
+  color:#171717 !important;
+  background:#ffe681 !important;
+}
+.article h1{color:#171717 !important}
+.article h2{color:#b18b00 !important}
+.article p,.article li{color:#333333 !important}
+.article .intro{color:#666666 !important}
+.back{
+  background:#f2c400 !important;
+  color:#111111 !important;
+  border:1px solid #d5aa00 !important;
+  font-weight:700 !important;
+}
+.back:hover{background:#ffda32 !important}
+.note{
+  background:#fff8d9 !important;
+  border-left:4px solid #e2b600 !important;
+  color:#333333 !important;
+}
+.warning{
+  background:#fff0ee !important;
+  border-left:4px solid #c83e36 !important;
+  color:#63211c !important;
+}
+.code{
+  background:#171717 !important;
+  border:1px solid #f2c400 !important;
+  color:#ffe681 !important;
+}
+.empty{color:#666666 !important}
+footer{
+  background:#111111 !important;
+  color:#eeeeee !important;
+  border-top:3px solid #f2c400 !important;
+}
+@media(max-width:760px){
+  aside{
+    background:#f7f7f7 !important;
+    border-bottom:1px solid #dedede !important;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="top">
+  <div>
+   <div class="logo">BLOCK<span>PEDIA</span> ⛏</div>
+   <div class="tagline">MINECRAFT JAVA EDITION 26.3 • THE BLOCK ENCYCLOPEDIA</div>
+  </div>
+
+  <div class="tools">
+   <input id="search" class="search"
+    placeholder="🔎 Rechercher un bloc, une ferme, une mécanique..."
+    oninput="searchContent()">
+   <button class="lang" id="langButton" onclick="toggleLanguage()">ENGLISH</button>
+  </div>
+ </div>
+</header>
+
+<div class="layout">
+ <aside>
+  <h3 id="navTitle">Navigation</h3>
+  <div class="navlist" id="navigation"></div>
+ </aside>
+
+ <main id="content"></main>
+</div>
+
+<footer id="footer">
+ BLOCKPEDIA • Encyclopédie non officielle de Minecraft Java Edition 26.3.
+ Les mécaniques peuvent évoluer selon les versions et les paramètres des serveurs.
+</footer>
+
+<script>
+
+/* =========================================================
+   LANGUE
+========================================================= */
+
+let language = "fr";
+
+const interfaceText = {
+ fr:{
+  nav:"Navigation",home:"Accueil",welcome:"Bienvenue dans BLOCKPEDIA.",
+  intro:"Explore les mécaniques de Minecraft Java : blocs, objets, créatures, dimensions, redstone, commandes et fermes. Recherche un sujet ou choisis une catégorie.",
+  categories:"Explorer les catégories",popular:"Fiches populaires",
+  files:"Fiches",edition:"Édition",read:"Lire la fiche →",
+  back:"← Accueil",category:"Catégorie",available:"Fiches disponibles",
+  results:"Résultats de recherche",resultFor:"résultat(s) pour",
+  noResults:"Aucun résultat trouvé. Essaie un autre mot-clé.",
+  how:"Comment ça fonctionne ?",important:"Informations importantes",
+  remember:"À retenir",tips:"Conseils",know:"À savoir :",
+  disclaimer:"Minecraft Java évolue régulièrement. Les mécaniques peuvent changer selon la version, les paramètres du monde ou les règles du serveur.",
+  search:"🔎 Rechercher un bloc, une ferme, une mécanique...",
+  footer:"BLOCKPEDIA • Encyclopédie non officielle de Minecraft Java Edition 26.3. Les mécaniques peuvent évoluer selon les versions et les paramètres des serveurs."
+ },
+ en:{
+  nav:"Navigation",home:"Home",welcome:"Welcome to BLOCKPEDIA.",
+  intro:"Explore Minecraft Java mechanics: blocks, items, mobs, dimensions, redstone, commands and farms. Search for a topic or choose a category.",
+  categories:"Explore categories",popular:"Popular articles",
+  files:"Articles",edition:"Edition",read:"Read article →",
+  back:"← Home",category:"Category",available:"Available articles",
+  results:"Search results",resultFor:"result(s) for",
+  noResults:"No results found. Try another keyword.",
+  how:"How does it work?",important:"Important information",
+  remember:"Key points",tips:"Tips",know:"Good to know:",
+  disclaimer:"Minecraft Java is regularly updated. Mechanics may change depending on the version, world settings or server rules.",
+  search:"🔎 Search for a block, farm, mechanic...",
+  footer:"BLOCKPEDIA • Unofficial Minecraft Java Edition 26.3 encyclopedia. Mechanics may change between versions and server settings."
+ }
+};
+
+function T(fr,en){
+ return language==="fr"?fr:en;
+}
+
+function toggleLanguage(){
+ language=language==="fr"?"en":"fr";
+ document.documentElement.lang=language;
+ document.getElementById("langButton").textContent=
+  language==="fr"?"ENGLISH":"FRANÇAIS";
+ document.getElementById("search").placeholder=interfaceText[language].search;
+ document.getElementById("navTitle").textContent=interfaceText[language].nav;
+ document.getElementById("footer").textContent=interfaceText[language].footer;
+ makeNav();
+ showHome();
+ if(document.getElementById("search").value.trim())searchContent();
+}
+
+/* =========================================================
+   CATÉGORIES
+========================================================= */
+
+const categories=[
+ {id:"basics",icon:"🎮",fr:"Bases du jeu",en:"Game basics",
+  descFr:"Survie, inventaire, santé et progression.",
+  descEn:"Survival, inventory, health and progression."},
+
+ {id:"blocks",icon:"🧱",fr:"Blocs",en:"Blocks",
+  descFr:"Familles de blocs et propriétés.",
+  descEn:"Block families and properties."},
+
+ {id:"items",icon:"🎒",fr:"Objets",en:"Items",
+  descFr:"Outils, ressources et équipements.",
+  descEn:"Tools, resources and equipment."},
+
+ {id:"mobs",icon:"🐾",fr:"Créatures",en:"Mobs",
+  descFr:"Créatures, comportements et apparitions.",
+  descEn:"Creatures, behaviours and spawning."},
+
+ {id:"farms",icon:"🏭",fr:"Fermes",en:"Farms",
+  descFr:"Fermes de ressources et automatisation.",
+  descEn:"Resource farms and automation."},
+
+ {id:"redstone",icon:"🔴",fr:"Redstone",en:"Redstone",
+  descFr:"Circuits, composants et logique.",
+  descEn:"Circuits, components and logic."},
+
+ {id:"enchant",icon:"✨",fr:"Enchantements",en:"Enchantments",
+  descFr:"Enchantements, niveaux et compatibilités.",
+  descEn:"Enchantments, levels and compatibility."},
+
+ {id:"potions",icon:"🧪",fr:"Potions",en:"Potions",
+  descFr:"Alchimie et effets.",
+  descEn:"Brewing and status effects."},
+
+ {id:"villagers",icon:"🧑‍🌾",fr:"Villageois",en:"Villagers",
+  descFr:"Métiers, échanges et reproduction.",
+  descEn:"Professions, trading and breeding."},
+
+ {id:"combat",icon:"⚔️",fr:"Combat",en:"Combat",
+  descFr:"Dégâts, armures et systèmes de combat.",
+  descEn:"Damage, armour and combat systems."},
+
+ {id:"world",icon:"🌳",fr:"Monde et biomes",en:"World and biomes",
+  descFr:"Génération du monde et biomes.",
+  descEn:"World generation and biomes."},
+
+ {id:"structures",icon:"🏰",fr:"Structures",en:"Structures",
+  descFr:"Villages, temples, donjons et autres lieux.",
+  descEn:"Villages, temples, dungeons and other places."},
+
+ {id:"nether",icon:"🔥",fr:"Nether",en:"Nether",
+  descFr:"Dimension, forteresses et ressources.",
+  descEn:"Dimension, fortresses and resources."},
+
+ {id:"end",icon:"🐉",fr:"End",en:"The End",
+  descFr:"Dragon, îles extérieures et progression.",
+  descEn:"Dragon, outer islands and progression."},
+
+ {id:"transport",icon:"🚂",fr:"Transport",en:"Transportation",
+  descFr:"Minecarts, bateaux, montures et élytres.",
+  descEn:"Minecarts, boats, mounts and Elytra."},
+
+ {id:"commands",icon:"⌨️",fr:"Commandes",en:"Commands",
+  descFr:"Commandes et outils de jeu.",
+  descEn:"Commands and game tools."},
+
+ {id:"multiplayer",icon:"🌐",fr:"Multijoueur",en:"Multiplayer",
+  descFr:"Serveurs, règles et performances.",
+  descEn:"Servers, rules and performance."},
+
+ {id:"technical",icon:"⚙️",fr:"Mécaniques avancées",en:"Advanced mechanics",
+  descFr:"Chunks, ticks, spawn et systèmes techniques.",
+  descEn:"Chunks, ticks, spawning and technical systems."}
+];
+
+/* =========================================================
+   ARTICLES
+   Format : catégorie, titre FR, titre EN, résumé FR, résumé EN,
+   puis quatre sections FR/EN.
+========================================================= */
+
+const articles=[
+
+/* BASES */
+
+["basics","Santé et cœurs","Health and hearts",
+"La barre de santé représente les points de vie du joueur.",
+"The health bar represents the player's health points.",
+"La santé normale est de 20 points, soit 10 cœurs. Les dégâts réduisent cette valeur.",
+"Normal health is 20 points, or 10 hearts. Damage reduces this value.",
+"La santé peut se régénérer naturellement lorsque les conditions de faim le permettent. L'effet Régénération restaure aussi les points de vie.",
+"Health can regenerate naturally when hunger conditions allow it. The Regeneration effect also restores health.",
+"Les armures, les boucliers, les effets et certains objets peuvent réduire ou modifier les dégâts reçus.",
+"Armour, shields, effects and certain items can reduce or change incoming damage.",
+"Surveille ta santé et garde de la nourriture dans ta barre rapide.",
+"Monitor your health and keep food in your hotbar."],
+
+["basics","Faim et saturation","Hunger and saturation",
+"La faim contrôle plusieurs aspects de la survie.",
+"Hunger controls several aspects of survival.",
+"La barre de faim possède 20 points. La saturation est une réserve cachée consommée avant les points de faim.",
+"The hunger bar has 20 points. Saturation is a hidden reserve that is consumed before hunger points.",
+"Courir, sauter, nager et régénérer sa santé peuvent augmenter l'épuisement. La nourriture restaure de la faim et de la saturation.",
+"Sprinting, jumping, swimming and regenerating health can increase exhaustion. Food restores hunger and saturation.",
+"La régénération naturelle dépend de la faim et de la saturation. À 18 points de faim ou plus, le joueur peut régénérer naturellement sa santé.",
+"Natural regeneration depends on hunger and saturation. At 18 hunger points or more, the player can naturally regenerate health.",
+"Une nourriture avec beaucoup de saturation permet de rester rassasié plus longtemps.",
+"Food with high saturation keeps you full for longer."],
+
+["basics","Expérience et niveaux","Experience and levels",
+"L'expérience sert notamment aux enchantements et à certaines mécaniques.",
+"Experience is used for enchanting and certain other mechanics.",
+"Les orbes d'expérience apparaissent après certaines actions : tuer des créatures, fondre des objets, miner certains minerais ou utiliser des bouteilles d'expérience.",
+"Experience orbs appear after certain actions: killing mobs, smelting items, mining certain ores or using experience bottles.",
+"Les niveaux sont dépensés à la table d'enchantement ou à l'enclume. Le coût dépend de l'action.",
+"Levels are spent at the enchanting table or anvil. The cost depends on the action.",
+"Les niveaux ne sont pas une monnaie universelle : certaines actions demandent aussi des objets ou des ressources.",
+"Levels are not a universal currency: some actions also require items or resources.",
+"Les fermes à expérience permettent de récupérer des orbes automatiquement ou rapidement.",
+"XP farms allow players to collect experience orbs automatically or quickly."],
+
+["basics","Cycle jour et nuit","Day and night cycle",
+"Le monde suit un cycle temporel.",
+"The world follows a time cycle.",
+"Un cycle complet dure 20 minutes en temps réel dans les conditions normales.",
+"A complete cycle lasts 20 minutes in real time under normal conditions.",
+"Le cycle comprend le jour, le coucher du soleil, la nuit et le lever du soleil.",
+"The cycle includes daytime, sunset, nighttime and sunrise.",
+"Le niveau de lumière et le moment de la journée influencent certaines apparitions de créatures.",
+"Light levels and time of day influence some mob spawning conditions.",
+"Les commandes et les règles du serveur peuvent modifier ou arrêter le cycle.",
+"Commands and server rules can change or stop the cycle."],
+
+["basics","Modes de jeu","Game modes",
+"Minecraft possède plusieurs modes de jeu.",
+"Minecraft has several game modes.",
+"Survie : récolter et gérer les ressources. Créatif : construire librement. Aventure : interactions limitées. Spectateur : observer le monde.",
+"Survival: collect and manage resources. Creative: build freely. Adventure: limited interactions. Spectator: observe the world.",
+"Le mode de jeu peut être modifié avec les commandes autorisées ou les paramètres du monde.",
+"Game mode can be changed with permitted commands or world settings.",
+"Les serveurs peuvent limiter les changements de mode.",
+"Servers can restrict game mode changes.",
+"Chaque mode est adapté à un type de partie différent.",
+"Each mode is suited to a different type of gameplay."],
+
+["basics","Respawn et point d'apparition","Respawning and spawn point",
+"Le joueur réapparaît après une mort.",
+"The player respawns after dying.",
+"Un lit peut définir un point d'apparition dans l'Overworld. Une ancre de réapparition fonctionne dans le Nether.",
+"A bed can set a spawn point in the Overworld. A Respawn Anchor works in the Nether.",
+"Si le point d'apparition est invalide ou bloqué, le joueur peut revenir au point d'apparition du monde.",
+"If the spawn point is invalid or obstructed, the player may return to the world spawn point.",
+"La règle de jeu qui conserve l'inventaire après la mort peut modifier la perte des objets.",
+"The game rule that keeps inventory after death can change whether items are lost.",
+"Pense à vérifier ton point d'apparition avant une exploration dangereuse.",
+"Check your spawn point before a dangerous expedition."],
+
+/* BLOCS */
+
+["blocks","Familles de bois","Wood types",
+"Les familles de bois possèdent des variantes de construction.",
+"Wood types have matching building variants.",
+"Les familles comprennent chêne, sapin, bouleau, acacia, chêne noir, jungle, mangrove, cerisier, bambou, bois carmin, bois biscornu et peuplier.",
+"Types include oak, spruce, birch, acacia, dark oak, jungle, mangrove, cherry, bamboo, crimson, warped and poplar.",
+"Les bûches peuvent être transformées en planches. Les familles possèdent généralement des escaliers, dalles, portes, trappes, clôtures et panneaux.",
+"Logs can be crafted into planks. Most wood types have stairs, slabs, doors, trapdoors, fences and signs.",
+"Le peuplier est arrivé dans la version Java 26.3.",
+"Poplar was added in Java Edition 26.3.",
+"Les bois servent à construire, fabriquer des outils et créer des objets décoratifs.",
+"Wood is used for building, crafting tools and making decorative items."],
+
+["blocks","Blocs de minerai","Ore blocks",
+"Les minerais contiennent des ressources importantes.",
+"Ores contain important resources.",
+"Les minerais comprennent charbon, fer, cuivre, or, redstone, lapis-lazuli, diamant, émeraude et quartz du Nether. Le débris ancien est une ressource du Nether.",
+"Ores include coal, iron, copper, gold, redstone, lapis lazuli, diamond, emerald and Nether quartz. Ancient Debris is a Nether resource.",
+"La pioche utilisée détermine si le minerai peut être récolté correctement. Certains minerais exigent un niveau de pioche minimum.",
+"The pickaxe used determines whether an ore can be harvested correctly. Some ores require a minimum pickaxe tier.",
+"La distribution des minerais dépend de la hauteur et de la génération du monde.",
+"Ore distribution depends on height and world generation.",
+"Utilise les bonnes coordonnées et le bon outil pour chaque minerai.",
+"Use the right coordinates and tool for each ore."],
+
+["blocks","Blocs de redstone","Redstone components",
+"Les composants de redstone transmettent, détectent ou modifient des signaux.",
+"Redstone components transmit, detect or modify signals.",
+"Les composants comprennent poudre de redstone, torches, répéteurs, comparateurs, observateurs, pistons, distributeurs, droppers, entonnoirs et leviers.",
+"Components include redstone dust, torches, repeaters, comparators, observers, pistons, dispensers, droppers, hoppers and levers.",
+"Un signal de redstone possède généralement une puissance comprise entre 0 et 15.",
+"A redstone signal generally has a strength between 0 and 15.",
+"Les répéteurs peuvent retarder et renouveler un signal. Les comparateurs peuvent lire certains contenants et comparer des signaux.",
+"Repeaters can delay and refresh a signal. Comparators can read certain containers and compare signals.",
+"Les circuits peuvent être simples, comme une porte automatique, ou très complexes.",
+"Circuits can be simple, like an automatic door, or very complex."],
+
+["blocks","Blocs lumineux","Light-emitting blocks",
+"Certains blocs émettent de la lumière.",
+"Some blocks emit light.",
+"Exemples : torches, lanternes, glowstone, lampes de redstone, lanternes marines, blocs de magma et champignons lumineux.",
+"Examples include torches, lanterns, glowstone, redstone lamps, sea lanterns, magma blocks and shroomlights.",
+"Les sources lumineuses ont des niveaux de lumière différents.",
+"Light sources have different light levels.",
+"La lumière influence notamment l'apparition de certaines créatures hostiles.",
+"Light affects the spawning of some hostile mobs.",
+"Les blocs lumineux sont utiles pour éclairer les bases et contrôler certaines apparitions.",
+"Light-emitting blocks are useful for lighting bases and controlling some mob spawns."],
+
+["blocks","Contenants et stockage","Storage blocks and containers",
+"Les contenants stockent ou déplacent des objets.",
+"Containers store or move items.",
+"Exemples : coffres, tonneaux, coffres de l'End, boîtes de Shulker, entonnoirs et fours.",
+"Examples include chests, barrels, Ender Chests, Shulker Boxes, hoppers and furnaces.",
+"Les entonnoirs transfèrent des objets entre contenants. Les boîtes de Shulker conservent leur contenu lorsqu'elles sont transportées.",
+"Hoppers transfer items between containers. Shulker Boxes keep their contents when carried.",
+"Les coffres de l'End partagent le même inventaire personnel entre tous les coffres de l'End d'un joueur.",
+"Ender Chests share the same personal inventory across all Ender Chests used by a player.",
+"Les systèmes de stockage automatique utilisent souvent des entonnoirs, comparateurs et coffres.",
+"Automatic storage systems often use hoppers, comparators and chests."],
+
+["blocks","Nouveaux blocs de Java 26.3","New blocks in Java 26.3",
+"La mise à jour 26.3 ajoute plusieurs blocs et objets de construction.",
+"Update 26.3 adds several blocks and building items.",
+"Les nouveautés comprennent les escaliers et dalles de laine pour toutes les couleurs, ainsi que les escaliers et dalles de béton.",
+"New additions include wool stairs and slabs in every colour, as well as concrete stairs and slabs.",
+"Les dalles et escaliers de béton peuvent aussi être fabriqués avec un tailleur de pierre.",
+"Concrete slabs and stairs can also be crafted using a stonecutter.",
+"Les escaliers et dalles de laine peuvent amortir les vibrations.",
+"Wool stairs and slabs can dampen vibrations.",
+"Cette mise à jour ajoute aussi des coussins et des lits de paille.",
+"The update also adds cushions and straw beds."],
+
+/* OBJETS */
+
+["items","Outils et durabilité","Tools and durability",
+"Les outils permettent de récolter et transformer les blocs.",
+"Tools allow players to collect and transform blocks.",
+"Pioche, hache, pelle, houe, cisailles, canne à pêche et briquet ont des usages spécifiques.",
+"Pickaxes, axes, shovels, hoes, shears, fishing rods and flint and steel have specific uses.",
+"Les outils possèdent une durabilité. Chaque utilisation peut réduire leur durabilité.",
+"Tools have durability. Each use can reduce their durability.",
+"Les matériaux influencent la vitesse, la durabilité et les blocs pouvant être récoltés.",
+"Materials affect speed, durability and which blocks can be harvested.",
+"Solidité réduit la consommation de durabilité. Raccommodage peut réparer un objet avec de l'expérience.",
+"Unbreaking reduces durability loss. Mending can repair an item using experience."],
+
+["items","Armures et boucliers","Armour and shields",
+"L'armure réduit une partie des dégâts reçus.",
+"Armour reduces some of the damage received.",
+"Les pièces principales sont casque, plastron, jambières et bottes.",
+"The main pieces are helmet, chestplate, leggings and boots.",
+"Les matériaux comprennent cuir, cotte de mailles, fer, or, diamant et netherite.",
+"Materials include leather, chainmail, iron, gold, diamond and netherite.",
+"Le bouclier peut bloquer plusieurs attaques lorsqu'il est utilisé dans la bonne direction.",
+"A shield can block many attacks when used in the correct direction.",
+"Les enchantements peuvent améliorer la protection ou ajouter des propriétés particulières.",
+"Enchantments can improve protection or add special properties."],
+
+["items","Élytres","Elytra",
+"Les élytres permettent de planer et de voler avec des fusées.",
+"Elytra allow players to glide and fly using fireworks.",
+"Elles se trouvent dans les navires de l'End, associés aux villes de l'End.",
+"They are found in End Ships, which are associated with End Cities.",
+"Le joueur commence à planer en sautant dans le vide depuis une hauteur.",
+"The player starts gliding by jumping into the air from a height.",
+"Les fusées de feu d'artifice permettent de gagner de la vitesse pendant le vol.",
+"Firework rockets provide a speed boost while flying.",
+"Raccommodage et Solidité sont des enchantements utiles pour les élytres.",
+"Mending and Unbreaking are useful Elytra enchantments."],
+
+["items","Cartes et boussoles","Maps and compasses",
+"Les objets de navigation aident à se repérer.",
+"Navigation items help players find their way.",
+"La boussole normale pointe vers le point d'apparition du monde.",
+"A normal compass points towards the world spawn point.",
+"Une boussole magnétisée pointe vers un bloc d'aimantation associé.",
+"A lodestone compass points towards its linked lodestone.",
+"Les cartes représentent les zones explorées. Certaines cartes spéciales permettent de localiser des structures.",
+"Maps show explored areas. Some special maps help locate structures.",
+"En 26.3, les cartes d'exploration deviennent des objets distincts avec leurs propres icônes.",
+"In 26.3, Explorer Maps become separate items with their own icons."],
+
+/* MOBS */
+
+["mobs","Apparition des créatures","Mob spawning",
+"Les créatures apparaissent selon plusieurs règles.",
+"Mobs spawn according to several rules.",
+"Les conditions peuvent dépendre du biome, de la lumière, du sol, de la hauteur, de la distance avec les joueurs et de la catégorie de créature.",
+"Conditions can depend on biome, light, ground, height, distance from players and mob category.",
+"Les créatures hostiles, passives, aquatiques et ambiantes ont des règles différentes.",
+"Hostile, passive, aquatic and ambient mobs have different rules.",
+"Les limites de créatures et les chunks simulés peuvent influencer les apparitions.",
+"Mob caps and simulated chunks can affect spawning.",
+"Une ferme doit respecter les conditions de spawn de la créature ciblée.",
+"A farm must respect the spawning conditions of its target mob."],
+
+["mobs","Despawn des créatures","Mob despawning",
+"Certaines créatures peuvent disparaître lorsqu'elles sont loin des joueurs.",
+"Some mobs can disappear when they are far from players.",
+"Le comportement dépend du type de créature et de sa distance avec les joueurs.",
+"Behaviour depends on the mob type and its distance from players.",
+"Les créatures persistantes, comme certaines créatures nommées ou apprivoisées, ne suivent pas les mêmes règles de disparition.",
+"Persistent mobs, such as certain named or tamed mobs, do not follow the same despawning rules.",
+"En 26.3, certains comportements de déplacement aléatoire des créatures persistantes s'arrêtent aussi lorsque les joueurs sont loin.",
+"In 26.3, some random movement behaviours of persistent mobs also stop when players are far away.",
+"Pour une ferme, il faut comprendre les règles de persistance de la créature.",
+"For a farm, understand the target mob's persistence rules."],
+
+["mobs","Slimes","Slimes",
+"Les slimes sont des créatures cubiques qui apparaissent dans certaines conditions.",
+"Slimes are cube-shaped mobs that spawn under specific conditions.",
+"Ils peuvent apparaître dans les chunks à slime ou dans certains biomes marécageux.",
+"They can spawn in slime chunks or in certain swamp biomes.",
+"Les grands et moyens slimes se divisent en slimes plus petits lorsqu'ils sont vaincus. Les petits ne se divisent pas.",
+"Large and medium slimes split into smaller slimes when defeated. Small slimes do not split.",
+"Les slimes peuvent fournir des boules de slime.",
+"Slimes can drop slimeballs.",
+"Les fermes à slimes utilisent leurs conditions d'apparition et des systèmes de collecte.",
+"Slime farms use their spawning conditions and collection systems."],
+
+["mobs","Villageois zombies","Zombie villagers",
+"Les villageois peuvent être transformés en villageois zombies.",
+"Villagers can be turned into zombie villagers.",
+"Un villageois peut devenir un villageois zombie lorsqu'il est attaqué par un zombie, selon la difficulté.",
+"A villager can become a zombie villager when attacked by a zombie, depending on difficulty.",
+"Un villageois zombie peut être soigné avec une potion de faiblesse et une pomme dorée.",
+"A zombie villager can be cured using a Weakness potion and a golden apple.",
+"Après guérison, le villageois peut proposer des réductions sur ses échanges.",
+"After curing, the villager may offer discounts on trades.",
+"Protège les villageois pendant la guérison.",
+"Protect villagers while they are being cured."],
+
+/* FERMES */
+
+["farms","Ferme à fer","Iron farm",
+"Une ferme à fer utilise les mécaniques d'apparition des golems de fer.",
+"An iron farm uses iron golem spawning mechanics.",
+"Les villageois doivent notamment avoir dormi récemment et ne pas avoir détecté de golem dans les conditions prévues par le jeu.",
+"Villagers must have slept recently and must not have detected a golem under the game's required conditions.",
+"En Java, les conditions de groupe incluent notamment cinq villageois qui bavardent ou trois villageois paniqués, selon la méthode utilisée.",
+"In Java, group conditions include five villagers gossiping or three villagers panicking, depending on the method used.",
+"Les lits sont importants pour le fonctionnement de nombreuses fermes à fer, mais les postes de travail ne sont pas une condition générale obligatoire pour faire apparaître les golems.",
+"Beds are important for many iron farms, but workstations are not a general requirement for iron golem spawning.",
+"Les golems sont dirigés vers une zone de collecte où ils sont vaincus et où le fer est récupéré.",
+"Golems are moved to a collection area where they are defeated and their iron is collected."],
+
+["farms","Ferme à creepers","Creeper farm",
+"Une ferme à creepers produit de la poudre à canon.",
+"A creeper farm produces gunpowder.",
+"Elle utilise les conditions d'apparition des créatures hostiles et des plateformes adaptées aux creepers.",
+"It uses hostile mob spawning conditions and platforms designed for creepers.",
+"Les systèmes de chute, d'eau ou de déplacement peuvent guider les creepers vers une zone de collecte.",
+"Fall systems, water or movement systems can guide creepers towards a collection area.",
+"Les chats peuvent influencer le comportement des creepers.",
+"Cat presence can influence creeper behaviour.",
+"La poudre à canon sert notamment à fabriquer des fusées de feu d'artifice.",
+"Gunpowder is used to craft firework rockets."],
+
+["farms","Ferme à expérience","XP farm",
+"Une ferme à expérience permet de récupérer rapidement des orbes.",
+"An XP farm allows players to collect experience orbs quickly.",
+"Elle peut utiliser un spawner, des créatures hostiles, des échanges ou d'autres sources d'expérience.",
+"It can use a spawner, hostile mobs, trading or other experience sources.",
+"Les créatures vaincues peuvent laisser de l'expérience. Certains objets fondus donnent aussi de l'expérience lorsqu'ils sont récupérés.",
+"Killed mobs can drop experience. Some smelted items also give experience when collected.",
+"Les fermes à spawner dépendent de la distance du joueur et des conditions du générateur.",
+"Spawner farms depend on player distance and spawner conditions.",
+"Les fermes à expérience sont utiles pour réparer des objets avec Raccommodage.",
+"XP farms are useful for repairing items with Mending."],
+
+["farms","Ferme à canne à sucre","Sugar cane farm",
+"La canne à sucre pousse près de l'eau.",
+"Sugar cane grows next to water.",
+"Elle peut être plantée sur certains blocs adaptés à côté d'un bloc d'eau.",
+"It can be planted on certain suitable blocks next to water.",
+"Un observateur peut détecter la croissance et activer un piston pour récolter la canne.",
+"An observer can detect growth and activate a piston to harvest the sugar cane.",
+"Les objets peuvent ensuite être récupérés avec de l'eau ou des entonnoirs.",
+"Items can then be collected using water or hoppers.",
+"La canne à sucre sert notamment à fabriquer du papier.",
+"Sugar cane is used to craft paper."],
+
+["farms","Ferme à bambou","Bamboo farm",
+"Le bambou pousse rapidement et peut être récolté automatiquement.",
+"Bamboo grows quickly and can be harvested automatically.",
+"Un observateur peut détecter la hauteur du bambou et déclencher un piston.",
+"An observer can detect bamboo height and trigger a piston.",
+"Les pousses peuvent être récupérées et transportées vers un coffre.",
+"Bamboo can be collected and transported to a chest.",
+"Le bambou peut servir de combustible et de matériau de construction.",
+"Bamboo can be used as fuel and as a building material.",
+"Les fermes à bambou sont souvent associées à un système de stockage automatique.",
+"Bamboo farms are often connected to automatic storage."],
+
+["farms","Ferme à citrouilles et pastèques","Pumpkin and melon farm",
+"Les citrouilles et les pastèques poussent à partir de tiges.",
+"Pumpkins and melons grow from stems.",
+"Une tige mature peut produire un fruit sur un bloc voisin adapté.",
+"A mature stem can produce fruit on a suitable neighbouring block.",
+"Un observateur peut détecter le fruit et activer un piston pour le casser.",
+"An observer can detect the fruit and activate a piston to break it.",
+"Les fruits peuvent être récupérés avec des entonnoirs ou des courants d'eau.",
+"Fruit can be collected using hoppers or water streams.",
+"Les citrouilles servent aussi à fabriquer des citrouilles sculptées.",
+"Pumpkins can also be carved."],
+
+["farms","Ferme à miel","Honey farm",
+"Les abeilles produisent du miel dans les ruches et nids.",
+"Bees produce honey in beehives and bee nests.",
+"Les abeilles récoltent du pollen sur les fleurs puis retournent à leur nid.",
+"Bees collect pollen from flowers and then return to their nest.",
+"Un distributeur peut récupérer le miel avec une bouteille ou les rayons avec des cisailles.",
+"A dispenser can collect honey using a bottle or honeycombs using shears.",
+"Un feu de camp placé correctement sous le nid peut calmer les abeilles pendant la récolte.",
+"A campfire correctly placed below the nest can calm bees during harvesting.",
+"Les fermes à miel peuvent produire bouteilles de miel et rayons de miel.",
+"Honey farms can produce honey bottles and honeycombs."],
+
+["farms","Ferme à or","Gold farm",
+"Une ferme à or utilise les apparitions de piglins zombifiés ou d'autres mécaniques adaptées.",
+"A gold farm uses zombified piglin spawning or other suitable mechanics.",
+"Les piglins zombifiés peuvent apparaître dans certaines zones du Nether.",
+"Zombified piglins can spawn in certain Nether areas.",
+"Les systèmes de déplacement et de collecte permettent de récupérer les lingots ou pépites obtenus.",
+"Movement and collection systems allow players to collect the resulting nuggets or ingots.",
+"Les portails du Nether peuvent être utilisés dans certains modèles de fermes.",
+"Nether portals can be used in some farm designs.",
+"Le rendement dépend fortement du modèle et des conditions de simulation.",
+"Output depends heavily on the design and simulation conditions."],
+
+["farms","Ferme à gardiens","Guardian farm",
+"Les gardiens apparaissent autour des monuments océaniques.",
+"Guardians spawn around ocean monuments.",
+"Les fermes utilisent les zones de spawn du monument et des systèmes pour déplacer les gardiens.",
+"Farms use the monument's spawning areas and systems to move guardians.",
+"Les gardiens peuvent fournir des cristaux de prismarine, des éclats de prismarine et du poisson.",
+"Guardians can drop prismarine crystals, prismarine shards and fish.",
+"Le monument doit être préparé et la zone de spawn comprise pour construire une ferme efficace.",
+"The monument must be prepared and its spawning area understood to build an efficient farm.",
+"Ces fermes peuvent aussi servir à récupérer de l'expérience.",
+"These farms can also be used to collect experience."],
+
+["farms","Ferme à sorcières","Witch farm",
+"Les sorcières peuvent apparaître dans les huttes de sorcières.",
+"Witches can spawn in witch huts.",
+"Une ferme utilise la zone de spawn associée à la structure et les règles de créatures hostiles.",
+"A farm uses the structure's spawning area and hostile mob rules.",
+"Les sorcières peuvent laisser plusieurs objets, dont poudre de redstone, bâtons, sucre et poudre à canon.",
+"Witches can drop several items, including redstone dust, sticks, sugar and gunpowder.",
+"Le rendement dépend de la conception et de la gestion des autres zones de spawn.",
+"Output depends on the design and management of other spawning areas.",
+"Les fermes à sorcières sont utiles pour obtenir plusieurs ressources.",
+"Witch farms are useful for obtaining several resources."],
+
+["farms","Ferme à arbres","Tree farm",
+"Une ferme à arbres automatise la pousse et la récolte du bois.",
+"A tree farm automates tree growth and wood harvesting.",
+"Les jeunes pousses ont besoin d'espace et de conditions adaptées pour pousser.",
+"Saplings need space and suitable conditions to grow.",
+"La poudre d'os peut accélérer la croissance de certaines pousses.",
+"Bone meal can speed up the growth of some saplings.",
+"Les pistons, TNT ou systèmes de récolte manuelle peuvent être utilisés selon le type de ferme.",
+"Pistons, TNT or manual harvesting systems can be used depending on the farm type.",
+"Chaque type d'arbre possède ses propres contraintes de croissance.",
+"Each tree type has its own growth requirements."],
+
+["farms","Ferme à neige","Snow farm",
+"Une ferme à neige utilise généralement un golem de neige.",
+"A snow farm usually uses a snow golem.",
+"Le golem de neige laisse des couches de neige sur certains blocs adaptés lorsqu'il se déplace.",
+"The snow golem leaves snow layers on certain suitable blocks as it moves.",
+"Il faut miner ces couches avec une pelle pour obtenir des boules de neige.",
+"Use a shovel to mine these layers and obtain snowballs.",
+"Le golem de neige ne produit donc pas directement des boules de neige dans l'inventaire.",
+"The snow golem does not directly place snowballs into an inventory.",
+"Les boules de neige peuvent être utilisées comme projectiles ou dans certaines recettes.",
+"Snowballs can be used as projectiles or in certain recipes."],
+
+["farms","Autres fermes possibles","Other farm types",
+"Il existe de nombreuses autres fermes dans Minecraft Java.",
+"Many other farms exist in Minecraft Java.",
+"Exemples : fermes à blazes, wither skeletons, shulkers, slimes, grenouilles, lumières de grenouille, glace, mousse, algues, fleurs et cultures.",
+"Examples include blaze, wither skeleton, shulker, slime, frog, froglight, ice, moss, kelp, flower and crop farms.",
+"Chaque ferme dépend des règles particulières de la ressource ciblée.",
+"Each farm depends on the specific rules of its target resource.",
+"Certaines fermes sont simples et d'autres utilisent des mécaniques avancées de chunks, redstone ou portails.",
+"Some farms are simple, while others use advanced chunk, redstone or portal mechanics.",
+"Vérifie toujours la compatibilité avec la version Java et les paramètres du serveur.",
+"Always check compatibility with the Java version and server settings."],
+
+/* REDSTONE */
+
+["redstone","Signal de redstone","Redstone signal",
+"Un signal de redstone transmet une puissance entre les composants.",
+"A redstone signal transmits power between components.",
+"La puissance normale d'un signal va de 0 à 15.",
+"Normal signal strength ranges from 0 to 15.",
+"La poudre de redstone peut transmettre le signal sur plusieurs blocs, avec une perte de puissance.",
+"Redstone dust can transmit a signal across multiple blocks, with decreasing strength.",
+"Les répéteurs peuvent renouveler le signal et ajouter un délai.",
+"Repeaters can refresh the signal and add a delay.",
+"Les comparateurs peuvent comparer des signaux ou mesurer le contenu de certains blocs.",
+"Comparators can compare signals or measure the contents of certain blocks."],
+
+["redstone","Observateurs","Observers",
+"Un observateur détecte certains changements d'état d'un bloc devant sa face.",
+"An observer detects certain block-state changes in front of its face.",
+"Lorsqu'un changement détecté se produit, il émet une impulsion de redstone.",
+"When a detected change occurs, it emits a redstone pulse.",
+"Les observateurs sont souvent utilisés dans les fermes automatiques.",
+"Observers are often used in automatic farms.",
+"Ils ne détectent pas absolument tous les événements possibles : leur fonctionnement dépend du changement d'état détectable.",
+"They do not detect every possible event: their behaviour depends on the detectable block-state change.",
+"Le sens de placement est important.",
+"Placement direction is important."],
+
+["redstone","Pistons","Pistons",
+"Les pistons déplacent certains blocs lorsqu'ils sont alimentés.",
+"Pistons move certain blocks when powered.",
+"Un piston normal pousse les blocs. Un piston collant peut aussi ramener un bloc lorsqu'il se rétracte.",
+"A normal piston pushes blocks. A sticky piston can also pull a block back when retracting.",
+"Tous les blocs ne peuvent pas être déplacés par les pistons.",
+"Not all blocks can be moved by pistons.",
+"Les pistons sont utilisés dans les portes, fermes et machines automatiques.",
+"Pistons are used in doors, farms and automatic machines.",
+"Le timing des signaux est important pour les systèmes complexes.",
+"Signal timing is important for complex systems."],
+
+["redstone","Entonnoirs et tri d'objets","Hoppers and item sorting",
+"Les entonnoirs transfèrent des objets entre les contenants.",
+"Hoppers transfer items between containers.",
+"Ils peuvent récupérer des objets au-dessus d'eux et les déplacer vers un contenant connecté.",
+"They can collect items above them and move them into a connected container.",
+"Les comparateurs permettent de détecter le contenu d'un entonnoir ou d'un coffre.",
+"Comparators can detect the contents of a hopper or chest.",
+"Les systèmes de tri utilisent des filtres d'objets et des signaux de redstone.",
+"Sorting systems use item filters and redstone signals.",
+"Les entonnoirs peuvent être bloqués lorsqu'ils reçoivent un signal de redstone.",
+"Hoppers can be locked when powered by redstone."],
+
+/* ENCHANTEMENTS */
+
+["enchant","Raccommodage","Mending",
+"Raccommodage utilise l'expérience pour réparer un objet.",
+"Mending uses experience to repair an item.",
+"Lorsqu'un objet avec Raccommodage est équipé ou tenu dans une main appropriée, une partie de l'expérience récupérée peut réparer sa durabilité.",
+"When an item with Mending is equipped or held in an appropriate hand, some collected experience can repair its durability.",
+"L'expérience utilisée pour réparer l'objet n'est pas ajoutée aux niveaux du joueur.",
+"Experience used to repair the item is not added to the player's levels.",
+"Si plusieurs objets endommagés possèdent Raccommodage, le jeu choisit lequel réparer.",
+"If multiple damaged items have Mending, the game chooses which one to repair.",
+"C'est un enchantement très utile pour les outils, armures et élytres.",
+"It is a very useful enchantment for tools, armour and Elytra."],
+
+["enchant","Solidité","Unbreaking",
+"Solidité réduit les chances qu'un objet perde de la durabilité.",
+"Unbreaking reduces the chance that an item loses durability.",
+"L'enchantement possède plusieurs niveaux.",
+"The enchantment has multiple levels.",
+"Il peut être appliqué à de nombreux outils, armures et objets.",
+"It can be applied to many tools, armour pieces and items.",
+"Il ne rend pas un objet totalement indestructible.",
+"It does not make an item completely indestructible.",
+"Solidité fonctionne très bien avec Raccommodage.",
+"Unbreaking works very well with Mending."],
+
+["enchant","Efficacité","Efficiency",
+"Efficacité accélère la récolte de certains blocs.",
+"Efficiency speeds up the mining of certain blocks.",
+"L'effet dépend de l'outil utilisé et du type de bloc.",
+"The effect depends on the tool used and the block type.",
+"Les niveaux plus élevés augmentent généralement la vitesse de minage.",
+"Higher levels generally increase mining speed.",
+"Il est particulièrement utile sur les pioches, haches et pelles.",
+"It is especially useful on pickaxes, axes and shovels.",
+"Associe-le à Solidité et Raccommodage pour un outil durable.",
+"Combine it with Unbreaking and Mending for a durable tool."],
+
+/* POTIONS */
+
+["potions","Alambic et potions","Brewing stand and potions",
+"L'alambic permet de fabriquer des potions.",
+"The brewing stand is used to make potions.",
+"Les potions utilisent généralement des fioles d'eau, des ingrédients et de la poudre de blaze comme carburant.",
+"Potions generally use water bottles, ingredients and blaze powder as fuel.",
+"La verrue du Nether sert souvent à créer une potion étrange, qui est la base de nombreuses potions.",
+"Nether Wart is often used to create an Awkward Potion, the base for many potions.",
+"Les ingrédients suivants déterminent l'effet : sucre, poudre de blaze, larmes de ghast, carottes dorées et autres objets.",
+"Further ingredients determine the effect: sugar, blaze powder, ghast tears, golden carrots and other items.",
+"La redstone peut prolonger certaines potions et la poudre lumineuse peut renforcer certains effets.",
+"Redstone can extend some potion durations and glowstone dust can strengthen some effects."],
+
+["potions","Effets de potion","Potion effects",
+"Les effets modifient temporairement les capacités du joueur ou des créatures.",
+"Effects temporarily change the abilities of players or mobs.",
+"Exemples : Vitesse, Force, Régénération, Résistance au feu, Vision nocturne, Invisibilité et Lenteur.",
+"Examples include Speed, Strength, Regeneration, Fire Resistance, Night Vision, Invisibility and Slowness.",
+"Les effets possèdent une durée et parfois plusieurs niveaux.",
+"Effects have a duration and sometimes multiple levels.",
+"Les potions peuvent être normales, jetables ou persistantes.",
+"Potions can be drinkable, splash or lingering.",
+"Certains effets peuvent être retirés avec du lait.",
+"Some effects can be removed with milk."],
+
+/* VILLAGEOIS */
+
+["villagers","Métiers des villageois","Villager professions",
+"Les villageois peuvent exercer différents métiers.",
+"Villagers can have different professions.",
+"Les métiers sont associés à des blocs de travail, comme le composteur, le pupitre, le fumoir ou le tailleur de pierre.",
+"Professions are linked to job-site blocks, such as the composter, lectern, smoker or stonecutter.",
+"Un villageois sans métier peut prendre un poste de travail disponible, s'il remplit les conditions.",
+"An unemployed villager can claim an available job site if the conditions are met.",
+"Les échanges peuvent changer lorsque le villageois monte de niveau.",
+"Trades can change as the villager levels up.",
+"Les villageois peuvent aussi être éleveurs, bibliothécaires, forgerons ou fermiers.",
+"Villagers can also be farmers, librarians, smiths or tool specialists."],
+
+["villagers","Échanges et émeraudes","Trading and emeralds",
+"Les villageois échangent des objets contre des émeraudes et d'autres objets.",
+"Villagers trade items for emeralds and other items.",
+"Chaque profession possède ses propres échanges.",
+"Each profession has its own trades.",
+"Les échanges peuvent se bloquer temporairement après un certain nombre d'utilisations et se réapprovisionner lorsque les conditions sont réunies.",
+"Trades can temporarily lock after a number of uses and restock when the required conditions are met.",
+"Le niveau du villageois détermine les échanges disponibles.",
+"The villager's level determines which trades are available.",
+"Les réductions peuvent dépendre de certains événements, notamment la guérison d'un villageois zombie.",
+"Discounts can depend on certain events, including curing a zombie villager."],
+
+["villagers","Reproduction des villageois","Villager breeding",
+"Les villageois peuvent se reproduire lorsque les conditions nécessaires sont réunies.",
+"Villagers can breed when the required conditions are met.",
+"Il faut notamment des villageois prêts à se reproduire et des lits valides disponibles.",
+"Villagers must be willing to breed and valid beds must be available.",
+"La nourriture peut rendre les villageois prêts à se reproduire.",
+"Food can make villagers willing to breed.",
+"Les bébés villageois grandissent avec le temps.",
+"Baby villagers grow up over time.",
+"Les fermes à villageois utilisent ces mécaniques pour produire de nouveaux villageois.",
+"Villager breeders use these mechanics to produce new villagers."],
+
+/* COMBAT */
+
+["combat","Recharge d'attaque","Attack cooldown",
+"En Java, les attaques à l'épée et à la hache utilisent une mécanique de recharge.",
+"In Java, sword and axe attacks use an attack cooldown mechanic.",
+"Attaquer trop rapidement peut réduire les dégâts infligés par certaines armes.",
+"Attacking too quickly can reduce the damage dealt by some weapons.",
+"L'indicateur de recharge permet de voir quand l'attaque est prête.",
+"The attack indicator shows when an attack is ready.",
+"Les armes ont des vitesses d'attaque différentes.",
+"Weapons have different attack speeds.",
+"Le timing est important pour infliger les dégâts optimaux.",
+"Timing is important for dealing optimal damage."],
+
+["combat","Bouclier","Shield",
+"Le bouclier bloque certaines attaques lorsqu'il est utilisé correctement.",
+"A shield blocks certain attacks when used correctly.",
+"Il protège principalement contre les attaques venant de la direction vers laquelle le joueur regarde.",
+"It mainly protects against attacks coming from the direction the player is facing.",
+"Une hache peut désactiver temporairement un bouclier dans certaines situations.",
+"An axe can temporarily disable a shield in certain situations.",
+"En Java 26.3, lever un bouclier avec une houe ou une pelle donne priorité à la défense plutôt qu'au labourage ou au tracé de chemins.",
+"In Java 26.3, raising a shield with a hoe or shovel prioritizes defence over tilling or path-making.",
+"La direction et le timing restent importants.",
+"Direction and timing remain important."],
+
+/* MONDE */
+
+["world","Chunks","Chunks",
+"Le monde est divisé en chunks.",
+"The world is divided into chunks.",
+"Un chunk mesure 16 blocs de largeur et 16 blocs de profondeur.",
+"A chunk is 16 blocks wide and 16 blocks deep.",
+"Les chunks sont chargés et simulés selon la position des joueurs et les réglages du monde.",
+"Chunks are loaded and simulated depending on player positions and world settings.",
+"La distance de rendu et la distance de simulation sont deux réglages différents.",
+"Render distance and simulation distance are two different settings.",
+"Les fermes doivent tenir compte des chunks chargés et simulés.",
+"Farms must take loaded and simulated chunks into account."],
+
+["world","Biomes","Biomes",
+"Les biomes définissent l'environnement naturel.",
+"Biomes define the natural environment.",
+"Exemples : plaines, forêts, déserts, jungles, savanes, marais, taïgas, océans et grottes luxuriantes.",
+"Examples include plains, forests, deserts, jungles, savannas, swamps, taigas, oceans and lush caves.",
+"Chaque biome possède ses caractéristiques, sa végétation et parfois ses propres créatures.",
+"Each biome has its own features, vegetation and sometimes its own mobs.",
+"Le biome influence aussi la génération de certaines structures.",
+"Biomes also influence the generation of some structures.",
+"La forêt tachetée est un nouveau biome de Java 26.3.",
+"The Dappled Forest is a new biome in Java 26.3."],
+
+["world","Random ticks","Random ticks",
+"Les random ticks mettent à jour certains blocs de façon aléatoire.",
+"Random ticks update certain blocks randomly.",
+"Ils influencent notamment la croissance des cultures et certains changements naturels.",
+"They affect crop growth and certain natural changes.",
+"La vitesse des random ticks peut être modifiée avec la règle de jeu correspondante.",
+"Random tick speed can be changed using the corresponding game rule.",
+"Les fermes de cultures dépendent souvent de cette mécanique.",
+"Crop farms often depend on this mechanic.",
+"Les random ticks ne sont pas la même chose que les ticks de jeu normaux.",
+"Random ticks are not the same as normal game ticks."],
+
+["world","Eau et courants","Water and currents",
+"L'eau peut former des sources et des courants.",
+"Water can form sources and currents.",
+"Les courants déplacent les objets et certaines entités.",
+"Water currents move items and certain entities.",
+"L'eau est utilisée dans les fermes, les ascenseurs à bulles et les systèmes de transport.",
+"Water is used in farms, bubble elevators and transport systems.",
+"Les sources d'eau peuvent se renouveler selon leur disposition.",
+"Water sources can regenerate depending on their arrangement.",
+"Les blocs et les dimensions peuvent modifier le comportement de l'eau.",
+"Blocks and dimensions can change how water behaves."],
+
+/* STRUCTURES */
+
+["structures","Villages","Villages",
+"Les villages sont des structures générées dans certains biomes.",
+"Villages are structures generated in certain biomes.",
+"Ils contiennent des bâtiments, villageois, lits, postes de travail et parfois des coffres.",
+"They contain buildings, villagers, beds, job sites and sometimes chests.",
+"Les villages sont importants pour les échanges, les fermes à fer et la progression.",
+"Villages are important for trading, iron farms and progression.",
+"Le style des bâtiments dépend du biome.",
+"Building styles depend on the biome.",
+"Les villages peuvent aussi être le point de départ d'une base.",
+"Villages can also be a starting point for a base."],
+
+["structures","Mines abandonnées","Abandoned mineshafts",
+"Les mines abandonnées sont des structures souterraines.",
+"Abandoned mineshafts are underground structures.",
+"Elles contiennent des tunnels, rails, coffres et parfois des générateurs d'araignées venimeuses.",
+"They contain tunnels, rails, chests and sometimes cave spider spawners.",
+"Elles peuvent fournir des rails et du butin.",
+"They can provide rails and loot.",
+"Leur génération peut traverser des cavernes et d'autres structures.",
+"They can generate through caves and other structures.",
+"Fais attention aux araignées venimeuses et aux passages dangereux.",
+"Watch out for cave spiders and dangerous passages."],
+
+["structures","Monuments océaniques","Ocean monuments",
+"Les monuments océaniques sont des structures sous-marines.",
+"Ocean monuments are underwater structures.",
+"Ils contiennent des gardiens et des anciens gardiens.",
+"They contain guardians and elder guardians.",
+"On y trouve de la prismarine et des éponges.",
+"Prismarine and sponges can be found there.",
+"Les monuments sont utilisés pour construire des fermes à gardiens.",
+"Monuments are used to build guardian farms.",
+"Prépare de l'équipement adapté avant d'explorer.",
+"Prepare suitable equipment before exploring."],
+
+["structures","Forteresses du Nether","Nether fortresses",
+"Les forteresses sont des structures du Nether.",
+"Nether fortresses are structures in the Nether.",
+"Elles contiennent des couloirs, des ponts, des coffres et des générateurs de blazes.",
+"They contain corridors, bridges, chests and blaze spawners.",
+"Les bâtons de blaze sont importants pour fabriquer de la poudre de blaze.",
+"Blaze rods are important for crafting blaze powder.",
+"Les wither skeletons peuvent apparaître dans certaines zones.",
+"Wither skeletons can spawn in certain areas.",
+"Les forteresses sont importantes pour progresser vers l'End.",
+"Fortresses are important for progressing towards the End."],
+
+["structures","Camps abandonnés","Abandoned camps",
+"Les camps abandonnés sont une nouvelle structure de Java 26.3.",
+"Abandoned Camps are a new structure in Java 26.3.",
+"Ils peuvent apparaître dans plusieurs biomes, dont les forêts, les prairies, les taïgas et la forêt tachetée.",
+"They can generate in several biomes, including forests, meadows, taigas and the Dappled Forest.",
+"On peut y trouver des coffres et des tonneaux contenant du butin.",
+"Chests and barrels containing loot can be found there.",
+"Les camps possèdent des variantes adaptées à différents biomes.",
+"Camps have variants adapted to different biomes.",
+"Certains camps contiennent de nouvelles cartes d'exploration.",
+"Some camps contain new Explorer Maps."],
+
+/* NETHER ET END */
+
+["nether","Portail du Nether","Nether portal",
+"Le portail permet de voyager entre l'Overworld et le Nether.",
+"The portal allows travel between the Overworld and the Nether.",
+"Il est construit avec de l'obsidienne et activé avec une source de feu.",
+"It is built with obsidian and activated using a source of fire.",
+"Les distances dans le Nether correspondent à une distance plus grande dans l'Overworld.",
+"Distances in the Nether correspond to greater distances in the Overworld.",
+"Les portails peuvent être liés selon leurs coordonnées.",
+"Portals can be linked based on their coordinates.",
+"Le calcul des coordonnées est important pour relier correctement plusieurs portails.",
+"Coordinate calculations are important for linking multiple portals correctly."],
+
+["nether","Piglins et troc","Piglins and bartering",
+"Les piglins sont des créatures du Nether.",
+"Piglins are mobs found in the Nether.",
+"Ils peuvent échanger des objets contre des lingots d'or.",
+"They can barter items in exchange for gold ingots.",
+"Porter au moins une pièce d'armure en or évite certaines réactions hostiles normales.",
+"Wearing at least one piece of gold armour prevents some normal hostile reactions.",
+"Les piglins zombifiés ont un comportement différent.",
+"Zombified piglins behave differently.",
+"Le troc permet d'obtenir plusieurs ressources utiles.",
+"Bartering can provide several useful resources."],
+
+["end","Dragon de l'End","Ender Dragon",
+"Le dragon est le boss principal de l'End.",
+"The dragon is the main boss of the End.",
+"Il vole autour de l'île centrale et interagit avec les cristaux de l'End.",
+"It flies around the central island and interacts with End Crystals.",
+"Les cristaux peuvent restaurer sa santé.",
+"End Crystals can restore its health.",
+"Vaincre le dragon permet d'obtenir de l'expérience et d'accéder à la progression extérieure de l'End.",
+"Defeating the dragon provides experience and access to the outer End progression.",
+"Les portails de sortie et les passerelles permettent de poursuivre l'exploration.",
+"Exit portals and gateways allow further exploration."],
+
+["end","Villes et navires de l'End","End Cities and End Ships",
+"Les îles extérieures contiennent des villes de l'End.",
+"The outer islands contain End Cities.",
+"Les villes contiennent des coffres et des shulkers.",
+"Cities contain chests and shulkers.",
+"Les navires de l'End peuvent contenir des élytres.",
+"End Ships can contain Elytra.",
+"Les shulkers peuvent laisser des carapaces utilisées pour fabriquer des boîtes de Shulker.",
+"Shulkers can drop shells used to craft Shulker Boxes.",
+"Les élytres font des villes de l'End une destination importante après le dragon.",
+"Elytra make End Cities an important destination after defeating the dragon."],
+
+/* TRANSPORT */
+
+["transport","Minecarts et rails","Minecarts and rails",
+"Les wagonnets se déplacent sur des rails.",
+"Minecarts move along rails.",
+"Il existe des rails normaux, propulseurs, détecteurs et activateurs.",
+"There are normal, powered, detector and activator rails.",
+"Les wagonnets peuvent transporter des joueurs, des créatures ou des objets selon leur type.",
+"Minecarts can transport players, mobs or items depending on their type.",
+"Les rails propulseurs nécessitent une alimentation redstone pour accélérer un wagonnet.",
+"Powered rails require redstone power to accelerate a minecart.",
+"Les wagonnets peuvent aussi être utilisés dans certaines fermes.",
+"Minecarts can also be used in some farms."],
+
+["transport","Bateaux","Boats",
+"Les bateaux permettent de se déplacer sur l'eau.",
+"Boats allow travel across water.",
+"Ils peuvent transporter un joueur et parfois une autre entité.",
+"They can carry a player and sometimes another entity.",
+"Les bateaux possèdent des variantes selon les familles de bois.",
+"Boats have variants based on wood types.",
+"Ils peuvent servir au transport de créatures.",
+"They can be used to transport mobs.",
+"Les bateaux sont aussi utiles pour déplacer des villageois.",
+"Boats are also useful for moving villagers."],
+
+["transport","Ascenseurs à bulles","Bubble elevators",
+"Les colonnes de bulles permettent de monter ou descendre dans l'eau.",
+"Bubble columns allow players to move up or down in water.",
+"Le sable des âmes produit des bulles ascendantes.",
+"Soul sand creates upward bubble columns.",
+"Le bloc de magma produit un courant descendant.",
+"Magma blocks create downward bubble columns.",
+"La colonne doit être composée de blocs d'eau source pour fonctionner correctement.",
+"The column must consist of water source blocks to work correctly.",
+"Les ascenseurs à bulles sont utiles dans les bases et les fermes.",
+"Bubble elevators are useful in bases and farms."],
+
+/* COMMANDES */
+
+["commands","Commandes essentielles","Essential commands",
+"Les commandes permettent de contrôler le monde.",
+"Commands allow players to control the world.",
+"Exemples : /gamemode, /time, /weather, /tp, /give, /effect, /locate et /difficulty.",
+"Examples: /gamemode, /time, /weather, /tp, /give, /effect, /locate and /difficulty.",
+"Les commandes nécessitent les permissions adaptées.",
+"Commands require the correct permissions.",
+"La syntaxe exacte dépend de la commande et de la version.",
+"Exact syntax depends on the command and version.",
+"Les serveurs peuvent désactiver certaines commandes.",
+"Servers can disable certain commands."],
+
+["commands","Commande /execute","The /execute command",
+"Execute permet de lancer une commande dans un contexte particulier.",
+"Execute allows a command to run in a specific context.",
+"Elle peut modifier l'exécuteur, la position, la rotation ou la dimension.",
+"It can change the executor, position, rotation or dimension.",
+"Elle peut aussi vérifier des conditions avant d'exécuter une commande.",
+"It can also check conditions before running a command.",
+"Execute est très utile pour les cartes personnalisées et les systèmes automatisés.",
+"Execute is very useful for custom maps and automated systems.",
+"Sa syntaxe possède de nombreux sous-commandes.",
+"It has many subcommands."],
+
+["commands","Blocs de commande","Command blocks",
+"Les blocs de commande exécutent des commandes.",
+"Command blocks execute commands.",
+"Ils peuvent être impulsionnels, répétitifs ou en chaîne.",
+"They can be impulse, repeating or chain command blocks.",
+"Ils peuvent fonctionner avec la redstone ou automatiquement selon leur configuration.",
+"They can work with redstone or automatically depending on their settings.",
+"Ils sont utiles pour les cartes et systèmes personnalisés.",
+"They are useful for maps and custom systems.",
+"Leur utilisation nécessite généralement les permissions appropriées.",
+"Their use generally requires the correct permissions."],
+
+["commands","Gamerules de Java 26.3","Java 26.3 game rules",
+"Les gamerules modifient certaines règles du monde.",
+"Game rules change certain world rules.",
+"Depuis Java 1.21.11, les noms des gamerules ont été modifiés : ils utilisent des identifiants avec namespace et snake_case.",
+"Since Java 1.21.11, game rule names have changed: they use namespaced snake_case identifiers.",
+"Exemples : minecraft:keep_inventory, minecraft:mob_griefing, minecraft:spawn_mobs, minecraft:advance_time et minecraft:random_tick_speed.",
+"Examples: minecraft:keep_inventory, minecraft:mob_griefing, minecraft:spawn_mobs, minecraft:advance_time and minecraft:random_tick_speed.",
+"Les anciens noms comme keepInventory, mobGriefing et doDaylightCycle ne sont plus les noms actuels.",
+"Old names such as keepInventory, mobGriefing and doDaylightCycle are no longer the current names.",
+"Vérifie toujours la syntaxe proposée par le jeu avec la commande /gamerule.",
+"Always check the syntax suggested by the game using /gamerule."],
+
+/* MULTIJOUEUR */
+
+["multiplayer","Serveurs Minecraft","Minecraft servers",
+"Un serveur permet à plusieurs joueurs de partager un monde.",
+"A server allows multiple players to share a world.",
+"Les serveurs peuvent utiliser des plugins, datapacks, mods et règles personnalisées.",
+"Servers can use plugins, datapacks, mods and custom rules.",
+"Les performances dépendent notamment du matériel, du nombre de joueurs et du nombre d'entités.",
+"Performance depends on hardware, player count and the number of entities.",
+"Un serveur peut avoir des mécaniques qui ne correspondent pas au jeu vanilla.",
+"A server may have mechanics that differ from vanilla gameplay.",
+"Vérifie les règles du serveur avant de construire une ferme.",
+"Check the server rules before building a farm."],
+
+["multiplayer","TPS et performances","TPS and performance",
+"Le TPS mesure le nombre de ticks de jeu effectués par seconde.",
+"TPS measures the number of game ticks performed per second.",
+"La cible habituelle est de 20 ticks par seconde.",
+"The normal target is 20 ticks per second.",
+"Les entités, la redstone, les chunks et les machines complexes peuvent augmenter la charge.",
+"Entities, redstone, chunks and complex machines can increase server load.",
+"Les FPS mesurent les images affichées par seconde : ce n'est pas la même chose que le TPS.",
+"FPS measures frames displayed per second: it is not the same as TPS.",
+"Un serveur peut avoir un TPS faible même si ton ordinateur affiche beaucoup de FPS.",
+"A server can have low TPS even if your computer displays many FPS."],
+
+/* TECHNIQUE */
+
+["technical","Distance de simulation","Simulation distance",
+"La distance de simulation contrôle les zones où les mécaniques fonctionnent activement.",
+"Simulation distance controls the areas where mechanics actively operate.",
+"Les créatures, blocs et systèmes nécessitant des ticks ne fonctionnent pas forcément lorsque la zone est trop éloignée.",
+"Mobs, blocks and systems requiring ticks may not work when an area is too far away.",
+"La distance de rendu peut être différente de la distance de simulation.",
+"Render distance can be different from simulation distance.",
+"Une ferme visible au loin peut être inactive si sa zone n'est pas simulée.",
+"A farm visible in the distance may be inactive if its area is not simulated.",
+"Vérifie la distance de simulation lorsque tu testes une ferme.",
+"Check simulation distance when testing a farm."],
+
+["technical","Ticks de jeu","Game ticks",
+"Minecraft fonctionne avec des ticks.",
+"Minecraft runs using ticks.",
+"À vitesse normale, le jeu vise 20 ticks par seconde.",
+"At normal speed, the game targets 20 ticks per second.",
+"De nombreuses mécaniques utilisent ces mises à jour pour progresser.",
+"Many mechanics use these updates to progress.",
+"Les délais redstone, la croissance et les comportements des créatures sont liés aux ticks.",
+"Redstone delays, growth and mob behaviour are linked to ticks.",
+"Les ralentissements du serveur peuvent changer le temps réel nécessaire à une action.",
+"Server lag can change the real time needed for an action."],
+
+["technical","Spawn chunks : changement important","Spawn chunks: important change",
+"Les spawn chunks fixes ont été supprimés dans les versions récentes de Java.",
+"Fixed spawn chunks were removed in recent Java versions.",
+"Depuis Java 1.21.9, le système classique de spawn chunks fixes autour du spawn du monde n'existe plus.",
+"Since Java 1.21.9, the classic system of fixed spawn chunks around world spawn no longer exists.",
+"Il ne faut donc plus compter sur les anciennes fermes qui fonctionnaient simplement grâce aux spawn chunks.",
+"Old farms that relied only on spawn chunks should therefore no longer be expected to work.",
+"Le chargement de zones peut dépendre d'autres systèmes, comme /forceload, les joueurs et les mécanismes de chargement disponibles.",
+"Area loading can depend on other systems, such as /forceload, players and available loading mechanics.",
+"Vérifie toujours les règles de chargement de chunks de la version utilisée.",
+"Always check the chunk-loading rules of the version being used."],
+
+["technical","Hitboxes","Hitboxes",
+"Les entités possèdent des zones de collision appelées hitboxes.",
+"Entities have collision areas called hitboxes.",
+"Elles déterminent notamment les collisions et certaines interactions.",
+"They determine collisions and certain interactions.",
+"Les dimensions varient selon l'entité et parfois selon son état.",
+"Dimensions vary depending on the entity and sometimes its state.",
+"En Java, F3 + B affiche les hitboxes des entités.",
+"In Java, F3 + B displays entity hitboxes.",
+"Les hitboxes des entités sont différentes des formes de collision et de sélection des blocs.",
+"Entity hitboxes are different from block collision and selection shapes."],
+
+["technical","Loot tables","Loot tables",
+"Les tables de butin définissent les objets obtenus dans certaines situations.",
+"Loot tables define which items are obtained in certain situations.",
+"Elles peuvent contrôler les drops de créatures, les coffres de structures et d'autres récompenses.",
+"They can control mob drops, structure chest loot and other rewards.",
+"Les datapacks peuvent modifier certaines tables de butin.",
+"Datapacks can modify certain loot tables.",
+"Les résultats peuvent dépendre de la chance et des conditions.",
+"Results can depend on chance and conditions.",
+"Les loot tables sont très utilisées dans les cartes personnalisées.",
+"Loot tables are widely used in custom maps."],
+
+["technical","Datapacks","Datapacks",
+"Les datapacks modifient des contenus et règles du jeu sans être des mods classiques.",
+"Datapacks modify game content and rules without being traditional mods.",
+"Ils peuvent ajouter ou modifier des recettes, fonctions, avancées et tables de butin.",
+"They can add or modify recipes, functions, advancements and loot tables.",
+"Ils sont installés dans les dossiers de données du monde.",
+"They are installed in the world's datapack folder.",
+"La compatibilité dépend de la version de Minecraft.",
+"Compatibility depends on the Minecraft version.",
+"Les datapacks peuvent personnaliser une partie sans installer un mod côté client.",
+"Datapacks can customize a world without installing a client-side mod."],
+
+/* JAVA 26.3 */
+
+["world","Forêt tachetée","Dappled Forest",
+"La forêt tachetée est un nouveau biome de Java 26.3.",
+"The Dappled Forest is a new biome in Java 26.3.",
+"Elle peut être trouvée près de biomes froids.",
+"It can be found near cold biomes.",
+"On y trouve des peupliers, des arbres tombés, des champignons étagères et des arbustes rouges.",
+"It contains poplar trees, fallen trees, shelf mushrooms and red shrubs.",
+"Des variantes froides de certains animaux passifs peuvent y apparaître.",
+"Cold variants of some passive animals can spawn there.",
+"Ce biome ajoute une nouvelle zone à explorer et de nouveaux matériaux de construction.",
+"This biome adds a new area to explore and new building materials."],
+
+["blocks","Peupliers","Poplar trees",
+"Les peupliers sont une nouvelle famille d'arbres de Java 26.3.",
+"Poplar trees are a new tree type in Java 26.3.",
+"Ils possèdent trois variantes de feuilles : rouges, orange et jaunes.",
+"They have three leaf variants: red, orange and yellow.",
+"Les feuilles peuvent donner des pousses de peuplier.",
+"Leaves can drop poplar saplings.",
+"Les troncs donnent des bûches de peuplier qui peuvent être transformées en blocs de bois.",
+"Trunks provide poplar logs that can be crafted into wood blocks.",
+"Les pousses peuvent pousser en différentes variantes de peuplier.",
+"Saplings can grow into different poplar variants."],
+
+["blocks","Champignons étagères","Shelf mushrooms",
+"Les champignons étagères sont une nouveauté de Java 26.3.",
+"Shelf mushrooms are a new feature in Java 26.3.",
+"Ils apparaissent sur les peupliers et les arbres tombés.",
+"They generate on poplar trees and fallen trees.",
+"Ils existent en petite et grande taille. De la poudre d'os peut faire grandir un petit champignon.",
+"They come in small and large sizes. Bone meal can grow a small mushroom.",
+"Un grand champignon étagère donne deux objets lorsqu'il est cassé.",
+"A large shelf mushroom drops two items when broken.",
+"Ils peuvent être utilisés dans des soupes.",
+"They can be used in stews."],
+
+["blocks","Arbustes rouges","Red shrubs",
+"Les arbustes rouges sont des plantes décoratives ajoutées en 26.3.",
+"Red shrubs are decorative plants added in 26.3.",
+"Ils apparaissent en petits groupes dans la forêt tachetée.",
+"They generate in small patches in the Dappled Forest.",
+"Ils peuvent être utilisés dans un composteur.",
+"They can be used in a composter.",
+"La poudre d'os peut faire pousser un autre arbuste dans un espace adjacent disponible.",
+"Bone meal can grow another shrub in an available adjacent space.",
+"Ils sont principalement décoratifs et utiles pour le paysage.",
+"They are mainly decorative and useful for landscaping."],
+
+["items","Lits de paille","Straw beds",
+"Les lits de paille sont une nouveauté de Java 26.3.",
+"Straw beds are a new feature in Java 26.3.",
+"Ils sont fabriqués avec trois blocs de foin et donnent quatre lits de paille.",
+"They are crafted using three hay bales and give four straw beds.",
+"Ils permettent de dormir pendant la nuit sans définir un point d'apparition.",
+"They allow players to sleep through the night without setting a spawn point.",
+"Ils ne peuvent être utilisés ni dans le Nether ni dans l'End.",
+"They cannot be used in the Nether or the End.",
+"Un lit de paille est détruit après utilisation.",
+"A straw bed is destroyed after use."],
+
+["items","Coussins","Cushions",
+"Les coussins sont des objets ajoutés en Java 26.3.",
+"Cushions are items added in Java 26.3.",
+"Ils peuvent être placés dans le monde et utilisés pour s'asseoir.",
+"They can be placed in the world and used for sitting.",
+"Ils existent en 16 couleurs.",
+"They come in 16 colours.",
+"Ils sont fabriqués avec trois dalles de laine de la même couleur.",
+"They are crafted using three wool slabs of the same colour.",
+"Les coussins sont surtout utiles pour la décoration et les constructions.",
+"Cushions are mainly useful for decoration and building."],
+
+["items","Cartes d'exploration 26.3","Explorer Maps in 26.3",
+"Java 26.3 modifie les cartes d'exploration.",
+"Java 26.3 changes Explorer Maps.",
+"Elles deviennent des objets distincts au lieu d'être simplement des cartes renommées.",
+"They become separate items instead of simply being renamed maps.",
+"Elles possèdent leurs propres icônes.",
+"They have their own icons.",
+"Les camps abandonnés peuvent contenir des cartes permettant de localiser d'autres camps ou certaines structures.",
+"Abandoned Camps can contain maps that locate other camps or certain structures.",
+"Les cartes d'exploration existantes sont converties lors du chargement des anciens mondes.",
+"Existing Explorer Maps are converted when old worlds are loaded."]
+];
+
+/* =========================================================
+   NAVIGATION ET AFFICHAGE
+========================================================= */
+
+function categoryName(cat){
+ return language==="fr"?cat.fr:cat.en;
+}
+
+function makeNav(){
+ const nav=document.getElementById("navigation");
+ nav.innerHTML=`
+ <button class="navbtn active" onclick="showHome(this)">
+ 🏠 ${interfaceText[language].home}
+ </button>`;
+
+ categories.forEach(c=>{
+  nav.innerHTML+=`
+  <button class="navbtn" onclick="showCategory('${c.id}',this)">
+   ${c.icon} ${categoryName(c)}
+  </button>`;
+ });
+}
+
+function makeHome(){
+ const t=interfaceText[language];
+ const content=document.getElementById("content");
+
+ content.innerHTML=`
+ <section class="hero">
+  <span class="pill">MINECRAFT JAVA EDITION 26.3</span>
+  <h1>${t.welcome}</h1>
+  <p>${t.intro}</p>
+  <div class="stats">
+   <div class="stat"><strong>${articles.length}</strong><small>${t.files}</small></div>
+   <div class="stat"><strong>${categories.length}</strong><small>${t.categories}</small></div>
+   <div class="stat"><strong>26.3</strong><small>Java</small></div>
+  </div>
+ </section>
+
+ <h2 class="section-title">${t.categories}</h2>
+ <div class="grid" id="categoryGrid"></div>
+
+ <h2 class="section-title">${t.popular}</h2>
+ <div class="grid" id="popularGrid"></div>
+ `;
+
+ const cg=document.getElementById("categoryGrid");
+
+ cg.innerHTML=categories.map(c=>`
+  <div class="tile" onclick="showCategory('${c.id}')">
+   <div class="emoji">${c.icon}</div>
+   <h3>${categoryName(c)}</h3>
+   <p>${language==="fr"?c.descFr:c.descEn}</p>
+   <p style="margin-top:10px;color:var(--green)">
+    ${articles.filter(a=>a[0]===c.id).length} ${t.files} →
+   </p>
+  </div>
+ `).join("");
+
+ const popularNames=[
+  "Ferme à fer","Ferme à creepers","Raccommodage",
+  "Chunks","Gamerules de Java 26.3","Spawn chunks : changement important",
+  "Forêt tachetée","Élytres"
+ ];
+
+ const pg=document.getElementById("popularGrid");
+
+ pg.innerHTML=popularNames.map(name=>{
+  const a=articles.find(x=>x[1]===name);
+  return a?tile(a):"";
+ }).join("");
+}
+
+function tile(a){
+ const cat=categories.find(c=>c.id===a[0]);
+ const title=language==="fr"?a[1]:a[2];
+ const summary=language==="fr"?a[3]:a[4];
+
+ return `
+ <div class="tile" onclick="showArticle('${escapeText(a[1])}')">
+  <span class="pill">${cat?categoryName(cat):"Guide"}</span>
+  <h3>${title}</h3>
+  <p>${summary}</p>
+  <p style="color:var(--green);margin-top:12px">
+   ${interfaceText[language].read}
+  </p>
+ </div>`;
+}
+
+function showHome(btn){
+ makeHome();
+ setActive(btn);
+ window.scrollTo(0,0);
+}
+
+function setActive(btn){
+ document.querySelectorAll(".navbtn").forEach(b=>b.classList.remove("active"));
+ if(btn)btn.classList.add("active");
+}
+
+function showCategory(id,btn){
+ const t=interfaceText[language];
+ const cat=categories.find(c=>c.id===id);
+ const list=articles.filter(a=>a[0]===id);
+
+ document.getElementById("content").innerHTML=`
+ <button class="back" onclick="showHome()">${t.back}</button>
+
+ <section class="hero">
+  <span class="pill">${t.category}</span>
+  <h1>${cat.icon} ${categoryName(cat)}</h1>
+  <p>${language==="fr"?cat.descFr:cat.descEn}</p>
+  <div class="stats">
+   <div class="stat">
+    <strong>${list.length}</strong>
+    <small>${t.available}</small>
+   </div>
+  </div>
+ </section>
+
+ <div class="grid">
+  ${list.map(tile).join("")}
+ </div>`;
+
+ setActive(btn);
+ window.scrollTo(0,0);
+}
+
+function showArticle(name){
+ const a=articles.find(x=>x[1]===name);
+ if(!a)return;
+
+ const t=interfaceText[language];
+ const cat=categories.find(c=>c.id===a[0]);
+
+ const title=language==="fr"?a[1]:a[2];
+ const summary=language==="fr"?a[3]:a[4];
+
+ const sections=[
+  {title:t.how,content:language==="fr"?a[5]:a[6]},
+  {title:t.important,content:language==="fr"?a[7]:a[8]},
+  {title:t.remember,content:language==="fr"?a[9]:a[10]},
+  {title:t.tips,content:language==="fr"?a[11]:a[12]}
+ ];
+
+ let sectionHTML=sections.map(s=>`
+  <h2>${s.title}</h2>
+  <p>${s.content}</p>
+ `).join("");
+
+ document.getElementById("content").innerHTML=`
+ <button class="back" onclick="showCategory('${a[0]}')">
+  ← ${categoryName(cat)}
+ </button>
+
+ <article class="article">
+  <span class="pill">${cat.icon} ${categoryName(cat)}</span>
+  <h1>${title}</h1>
+  <p class="intro">${summary}</p>
+
+  ${sectionHTML}
+
+  <div class="note">
+   <strong>${t.know}</strong>
+   ${t.disclaimer}
+  </div>
+ </article>`;
+
+ window.scrollTo(0,0);
+}
+
+/* =========================================================
+   RECHERCHE
+========================================================= */
+
+function searchContent(){
+ const q=document.getElementById("search").value.toLowerCase().trim();
+
+ if(!q){
+  showHome();
+  return;
+ }
+
+ const results=articles.filter(a=>{
+  return a.join(" ").toLowerCase().includes(q);
+ });
+
+ const t=interfaceText[language];
+
+ document.getElementById("content").innerHTML=`
+ <button class="back" onclick="showHome()">${t.back}</button>
+
+ <h1>${t.results}</h1>
+
+ <p style="color:var(--muted)">
+  ${results.length} ${t.resultFor} « ${escapeHTML(q)} »
+ </p>
+
+ ${
+  results.length
+  ? `<div class="grid">${results.map(tile).join("")}</div>`
+  : `<div class="empty">${t.noResults}</div>`
+ }`;
+
+ setActive(null);
+}
+
+function escapeText(s){
+ return s.replace(/\\/g,"\\\\").replace(/'/g,"\\'");
+}
+
+function escapeHTML(s){
+ return s.replace(/[&<>"']/g,function(c){
+  return {
+   "&":"&amp;",
+   "<":"&lt;",
+   ">":"&gt;",
+   '"':"&quot;",
+   "'":"&#39;"
+  }[c];
+ });
+}
+
+/* =========================================================
+   INITIALISATION
+========================================================= */
+
+document.getElementById("search").placeholder=interfaceText.fr.search;
+makeNav();
+makeHome();
+
+</script>
+</body>
+</html>
